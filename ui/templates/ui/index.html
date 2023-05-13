@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html>
     {% load static %}
-
     <head>
-        <meta charset="UTF-8">
-        <title>ChatWithoutGpt</title>
+        <title>ChatWithoutGPT</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'ui/style.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'ui/favicon.ico' %}">
     </head>
-
     <body>
-
-        <div class="chat-window">
-            <div class="chat-header">
-                <h1>ChatWithoutGpt</h1>
-                <button id="admin-button">Admin Console</button>
+        <div class="container">
+            <div class="sidebar">
+                <div class="logo">
+                    <h3 id="header">ChatWithoutGPT</h3>
+                    <div id="icon">
+                        <img src="{% static 'ui/logo.png' %}" alt="ChatWithoutGPT" width="30" height="30">
+                    </div>
+                </div>
+                <button id="clear-btn">Clear</button>
+                <button onclick="goToAdmin()" id="admin-btn">Admin</button>
             </div>
-            
-            <div class="chat-messages">
-                <div class="message">
-                    <p class="bot-message">Hi, how can I help you today?</p>
+            <div class="chat-container">
+                <div class="chat-header"></div>
+                <div class="chat-box">
+                    <div class="bot-message">
+                        <p>Hello! How can I help you today?</p>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <form>
+                        <input type="text" id="text" name="text" placeholder="Type your message here">
+                        <button type="submit" id="submit-btn"><i class="fa fa-paper-plane"></i></button>
+                    </form>
                 </div>
             </div>
-            <div class="chat-input">
-                <input type="text" placeholder="Type your message here...">
-                <button>Send</button>
-            </div>
         </div>
-        {% csrf_token %}
-        <script>
-            document.cookie = 'csrftoken=' + document.getElementsByName('csrfmiddlewaretoken')[0].value + ';path=/';
-        </script>
-        <script src="{% static 'ui/script.js' %}"></script>
     </body>
+    <script src="{% static 'ui/script.js' %}"></script>
 </html>

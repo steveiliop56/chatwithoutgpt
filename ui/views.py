@@ -8,20 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     return render(request, "ui/index.html")
 
-def get_response(message):
-    # Generate a response from the chatbot based on the user's message
-    response = "Hello!"
-
-    # Return the bot response
-    return response
-
-
 @csrf_exempt
 def get_message(request):
-    if request.method == 'POST':
-        message = json.loads(request.body)['message']
-        print(message)
-        bot_message = get_response(message)
-        return JsonResponse({'bot_message': bot_message})
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
+    session_id = request.GET.get('session_id', '')
+    text = request.GET.get('text', '')
+    message = "Hello, you sent a GET request with session id {} and text {}".format(session_id, text)
+    data = {
+        'message': message
+    }
+    return JsonResponse(data)

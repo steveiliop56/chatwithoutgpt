@@ -1,55 +1,53 @@
-const messageInput = document.querySelector('.chat-input input[type="text"]');
-const messageList = document.querySelector('.chat-messages');
-const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+const chatBox = document.querySelector('.chat-box');
+const form = document.querySelector('form');
+const textInput = document.getElementById('text');
+const clearBtn = document.getElementById('clear-btn');
 
-document.querySelector('.chat-input button').addEventListener('click', (event) => {
-    event.preventDefault();
+// Function to add a user message to the chat box
+const addUserMessage = (text) => {
+  const userMessage = document.createElement('div');
+  userMessage.classList.add('user-message');
+  const messageContent = document.createElement('p');
+  messageContent.textContent = text;
+  userMessage.appendChild(messageContent);
+  chatBox.appendChild(userMessage);
+};
 
-    // Get the message text from the input element
-    const messageText = messageInput.value.trim();
+// Function to add a bot message to the chat box
+const addBotMessage = (text) => {
+  const botMessage = document.createElement('div');
+  botMessage.classList.add('bot-message');
+  const messageContent = document.createElement('p');
+  messageContent.textContent = text;
+  botMessage.appendChild(messageContent);
+  chatBox.appendChild(botMessage);
+};
 
-    // Only proceed if the message text is not empty
-    if (messageText !== '') {
-        // Create a new user message element
-        const userMessageElem = document.createElement('div');
-        userMessageElem.classList.add('message', 'user-message', 'message-right');
-        const userMessageTextElem = document.createElement('p');
-        userMessageTextElem.textContent = messageText;
-        userMessageElem.appendChild(userMessageTextElem);
-        messageList.appendChild(userMessageElem);
+// Function to generate a random session ID
+const generateSessionId = () => {
+  return Math.floor(Math.random() * 1000000);
+};
 
-        // Clear the input element
-        messageInput.value = '';
-
-        // Send the message to the Django backend
-        fetch('/get_message/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ message: messageText })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Create a new bot message element
-            const botMessageElem = document.createElement('div');
-            botMessageElem.classList.add('message', 'bot-message');
-            const botMessageTextElem = document.createElement('p');
-            botMessageTextElem.textContent = data.bot_message;
-            botMessageElem.appendChild(botMessageTextElem);
-            messageList.appendChild(botMessageElem);
-
-            // Scroll the message list to the bottom
-            messageList.scrollTop = messageList.scrollHeight;
-        })
-        .catch(error => {
-            console.error('There was a problem sending the message:', error);
-        });
-    }
+// Event listener for form submission
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const text = textInput.value;
+  addUserMessage(text);
+  textInput.value = '';
+  const sessionId = generateSessionId();
+  const url = `/get_message/?session_id=${sessionId}&text=${text}`;
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    addBotMessage(data.message);
+  });
 });
+
+clearBtn.addEventListener("click", () => {
+  chatBox.innerHTML = "";
+  addBotMessage("Hello! How can I help you today?");
+});
+
+function goToAdmin() {
+  window.location.href = '/admin';
+}
