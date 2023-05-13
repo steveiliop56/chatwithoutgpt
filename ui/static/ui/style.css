@@ -152,7 +152,7 @@ body {
     z-index: 9999;
   }
   
-  .cookie-button {
+.cookie-button {
     background-color: #2196F3;
     color: #fff;
     padding: 0.5rem 1rem;
@@ -161,7 +161,7 @@ body {
     cursor: pointer;
     margin-top: 1rem;
     transition: all 0.2s ease-in-out;
-  }
+}
   
   .cookie-button:hover {
     background-color: #0D47A1;
@@ -177,25 +177,7 @@ body {
 }
 
 .sidebar.hidden {
-    width: 0;
-    padding: 0;
+    display: none;
 }
-
-.chat-container.hidden {
-    width: 100%;
-}
-
-@media only screen and (max-width: 600px) {
-    .sidebar.hidden {
-      display: none;
-    }
-  }
-
-  @media only screen and (min-width: 768px) {
-    #toggle-sidebar-btn {
-      display: none;
-    }
-  }
-  
 
 
