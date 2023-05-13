@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
     {% load static %}
+    <div class="cookie-message" id="cookie-notification" style="display:none;">
+        <p id="cookie-text">This site uses cookies to provide you with a better experience. By continuing to browse the site, you are agreeing to our use of cookies.</p>
+        <button id="cookie-button" class="cookie-button">Got it!</button>
+    </div>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ChatWithoutGPT</title>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -10,6 +15,7 @@
     </head>
     <body>
         <div class="container">
+            <button onclick="toggleSidebar()" id="toggle-sidebar-btn"><i class="fa fa-bars"></i></button>
             <div class="sidebar">
                 <div class="logo">
                     <h3 id="header">ChatWithoutGPT</h3>
